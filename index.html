@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Jayyant Jaju</title>
+    <link rel="stylesheet" href="css/core.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <video autoplay muted loop id="bg-video">
+      <source src="assets/psp_background_wave.mp4" type="video/mp4" />
+    </video>
+
+    <div id="scanlines"></div>
+
+    <div id="splash">
+      <div id="splash-text">Hi, I'm Jayyant</div>
+    </div>
+
+    <div id="contact-button">
+      <img src="assets/contact_icon.png" class="contact-icon" alt="contact" />
+      <a href="mailto:jayyantjaju@gmail.com" id="contact-link"
+        >jayyantjaju@gmail.com</a
+      >
+    </div>
+
+    <main id="main-content">
+      <button class="nav-arrow" id="nav-left" aria-label="Previous">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+
+      <div id="xmb-area">
+        <div id="xmb-wrap">
+          <div id="xmb-track">
+            <div class="xmb-item" data-action="resume">
+              <div class="xmb-icon-wrap">
+                <img src="assets/file_icon.png" class="xmb-icon" alt="Resume" />
+              </div>
+              <span class="xmb-label">Resume</span>
+            </div>
+
+            <div class="xmb-item" data-action="about-me">
+              <div class="xmb-icon-wrap">
+                <img src="assets/aboutme.png" class="xmb-icon" alt="About Me" />
+              </div>
+              <span class="xmb-label">About Me</span>
+            </div>
+
+            <div
+              class="xmb-item"
+              data-action="submenu"
+              data-submenu="games-menu"
+            >
+              <div class="xmb-icon-wrap">
+                <img
+                  src="assets/controller_icon.png"
+                  class="xmb-icon"
+                  alt="Games"
+                />
+              </div>
+              <span class="xmb-label">Games</span>
+            </div>
+
+            <div
+              class="xmb-item"
+              data-action="submenu"
+              data-submenu="projects-menu"
+            >
+              <div class="xmb-icon-wrap">
+                <img
+                  src="assets/projects_icon.png"
+                  class="xmb-icon"
+                  alt="Projects"
+                />
+              </div>
+              <span class="xmb-label">Projects</span>
+            </div>
+
+            <div class="xmb-item" data-action="github">
+              <div class="xmb-icon-wrap">
+                <img
+                  src="assets/github_icon.png"
+                  class="xmb-icon"
+                  alt="GitHub"
+                />
+              </div>
+              <span class="xmb-label">GitHub</span>
+            </div>
+
+            <div class="xmb-item" data-action="linkedin">
+              <div class="xmb-icon-wrap">
+                <img
+                  src="assets/linkedin_icon.png"
+                  class="xmb-icon"
+                  alt="LinkedIn"
+                />
+              </div>
+              <span class="xmb-label">LinkedIn</span>
+            </div>
+
+            <div class="xmb-item" data-action="leetcode">
+              <div class="xmb-icon-wrap">
+                <img
+                  src="assets/leetcode_icon.png"
+                  class="xmb-icon"
+                  alt="LeetCode"
+                />
+              </div>
+              <span class="xmb-label">LeetCode</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects submenu -->
+        <div class="sub-menu" id="projects-menu">
+          <div class="sub-menu-track">
+            <div
+              class="sub-item"
+              data-type="project"
+              data-title="Login-signup page"
+              data-desc="A simple login and sign-up page built in Python using the TKinter library. Supports password hashing."
+              data-tech="Python, TKinter"
+              data-link="https://github.com/jayyant/Login-Signup-page"
+            >
+              <img src="assets/notepad_icon.png" class="sub-icon" alt="" />
+              <span class="sub-label">Login page</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Games submenu -->
+        <div class="sub-menu" id="games-menu">
+          <div class="sub-menu-track">
+            <div
+              class="sub-item"
+              data-type="game"
+              data-title="Renegade"
+              data-logo="assets/renegade_logo.png"
+              data-desc="A 2D sidescrolling platformer RPG built in Godot. Features unique pixel art, physics-based shooting mechanics and a branching storyline."
+              data-engine="Godot Game Engine"
+              data-tech="GDScript, Aseprite, Photoshop"
+              data-link="https://juffydev.itch.io/renegade"
+            >
+              <img src="assets/renegade_logo.png" class="sub-icon" alt="" />
+              <span class="sub-label">Renegade</span>
+            </div>
+            <div
+              class="sub-item"
+              data-type="game"
+              data-title="A Lazy Game"
+              data-logo="assets/lazy_game_icon.jpeg"
+              data-desc="A simple coin-collection game built in Unreal Engine 5 as a capstone project showing my learning of the engine and mechanics."
+              data-engine="Unreal Engine 5"
+              data-tech="C++, Blender"
+              data-link="https://github.com/jayyant/A-Lazy-Game"
+            >
+              <img src="assets/lazy_game_icon.jpeg" class="sub-icon" alt="" />
+              <span class="sub-label">A Lazy Game</span>
+            </div>
+            <div
+              class="sub-item"
+              data-type="game"
+              data-title="Giga Run"
+              data-logo="assets/giga_run_icon.jpeg"
+              data-desc="A simple endless runner game built in Python using the Pygame library. Features procedural generation and is exported using PyInstaller."
+              data-engine="Pygame"
+              data-tech="Python, PyInstaller"
+              data-link="https://github.com/jayyant/Giga-Run"
+            >
+              <img src="assets/giga_run_icon.jpeg" class="sub-icon" alt="" />
+              <span class="sub-label">Giga Run</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end xmb-area -->
+
+      <button class="nav-arrow" id="nav-right" aria-label="Next">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </button>
+    </main>
+
+    <!-- Resume overlay -->
+    <div id="resume-overlay">
+      <button id="resume-close">✕ Close</button>
+      <iframe id="resume-frame" src="assets/Jayyant_Jaju_CV.pdf"></iframe>
+    </div>
+
+    <!-- Project popup -->
+    <div id="project-popup">
+      <div id="project-popup-inner">
+        <button id="project-popup-close">✕</button>
+        <h2 id="popup-title"></h2>
+        <p id="popup-desc"></p>
+        <div id="popup-tech"></div>
+        <a id="popup-link" href="" target="_blank">View Project →</a>
+      </div>
+    </div>
+
+    <!-- Game popup -->
+    <div id="game-popup">
+      <div id="game-popup-inner">
+        <button id="game-popup-close">✕</button>
+        <img id="game-popup-logo" src="" alt="" />
+        <div class="popup-divider"></div>
+        <h2 id="game-popup-title"></h2>
+        <div class="popup-divider"></div>
+        <p id="game-popup-desc"></p>
+        <div class="popup-divider"></div>
+        <div class="game-popup-row">
+          <span class="game-popup-field-label">Game Engine</span>
+          <span id="game-popup-engine"></span>
+        </div>
+        <div class="popup-divider"></div>
+        <div class="game-popup-row">
+          <span class="game-popup-field-label">Tech Stack</span>
+          <div id="game-popup-tech"></div>
+        </div>
+        <div class="popup-divider"></div>
+        <a id="game-popup-link" href="" target="_blank">View Game →</a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+             ABOUT ME OVERLAY
+             PSP boot screen aesthetic — white flash fades to
+             dark gradient, content fades in after.
+        ════════════════════════════════════════════════════ -->
+    <div id="about-overlay">
+      <!-- White flash layer — shown first, then fades out -->
+      <div id="about-flash"></div>
+
+      <!-- Close button -->
+      <button id="about-close">✕ Close</button>
+
+      <!-- PSP-style "About Me" centred logo title -->
+      <div id="about-hero">
+        <span id="about-hero-text">About Me</span>
+      </div>
+
+      <!-- Scrollable content panel -->
+      <div id="about-content">
+        <h2 class="about-section-title">About Me</h2>
+        <div class="about-divider"></div>
+
+        <!-- ✏️  WRITE YOUR SNIPPET HERE — replace the placeholder text below -->
+        <p class="about-bio">
+          My name is Jayyant Jaju, and for the last 3 years, I've been the one and only Scuffy - a passionate solo game developer, software developer and webdev enthusiast.<br>
+        </p>
+
+        <div class="about-divider"></div>
+
+        <h3 class="about-section-subtitle">Skills</h3>
+        <!-- ✏️  ADD YOUR SKILLS HERE — copy the pattern: <span class="skill-tag">Skill Name</span> -->
+        <div class="skill-tags">
+          <span class="skill-tag">Game Development</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Add More Skills Here</span>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <h3 class="about-section-subtitle">Languages</h3>
+        <!-- ✏️  ADD YOUR LANGUAGES HERE
+                     Pattern: <div class="lang-item">
+                                  <img src="assets/YOUR_LOGO.png" alt="Language Name">
+                                  <span>Language Name</span>
+                              </div>
+                -->
+        <div class="lang-grid">
+          <div class="lang-item">
+            <img src="assets/python_icon.png" alt="Python" />
+            <span>Python</span>
+          </div>
+          <div class="lang-item">
+            <img src="assets/cpp_icon.png" alt="C++" />
+            <span>C++</span>
+          </div>
+          <div class="lang-item">
+            <img src="assets/gdscript_icon.png" alt="GDScript" />
+            <span>GDScript</span>
+          </div>
+          <!-- Add more lang-items here following the same pattern -->
+        </div>
+
+        <div class="about-divider"></div>
+
+        <h3 class="about-section-subtitle">Software</h3>
+        <!-- ✏️  ADD YOUR SOFTWARE HERE — same pattern as Languages above -->
+        <div class="lang-grid">
+          <div class="lang-item">
+            <img src="assets/godot_icon.png" alt="Godot" />
+            <span>Godot</span>
+          </div>
+          <div class="lang-item">
+            <img src="assets/unreal_icon.png" alt="Unreal Engine" />
+            <span>Unreal Engine</span>
+          </div>
+          <div class="lang-item">
+            <img src="assets/aseprite_icon.png" alt="Aseprite" />
+            <span>Aseprite</span>
+          </div>
+          <!-- Add more lang-items here following the same pattern -->
+        </div>
+
+        <div class="about-divider"></div>
+
+        <div id="about-open-to-work">
+          <span id="about-open-dot"></span>
+          Open to work &amp; commissions
+        </div>
+      </div>
+      <!-- end about-content -->
+    </div>
+    <!-- end about-overlay -->
+
+    <script src="js/effects.js"></script>
+    <script src="js/core.js"></script>
+  </body>
+</html>
