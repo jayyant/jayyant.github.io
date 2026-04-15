@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.getElementById("xmb-track");
+  const xmbWrap = document.getElementById("xmb-wrap");
   const navLeft = document.getElementById("nav-left");
   const navRight = document.getElementById("nav-right");
   const resumeOverlay = document.getElementById("resume-overlay");
@@ -24,8 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const aboutOverlay = document.getElementById("about-overlay");
   const aboutClose = document.getElementById("about-close");
 
-  const ROW_H = 84;
-  const ITEM_SLOT = 170;
+  const ROW_H = 98; // matches CSS .sub-item height (desktop)
+  const ITEM_SLOT = 170; // icon width + gap
 
   const items = Array.from(track.querySelectorAll(".xmb-item"));
   let current = 0;
@@ -69,8 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateSubMenu() {
-    const windowCentre = 126;
-    const offset = windowCentre - subIndex * ROW_H - ROW_H / 2;
+    // Window height from CSS: 294px (desktop) or 300px (mobile)
+    const windowH = activeSubMenu.offsetHeight;
+    const centre = windowH / 2;
+    const offset = centre - subIndex * ROW_H - ROW_H / 2;
     activeSubMenu.querySelector(".sub-menu-track").style.transform =
       `translateY(${offset}px)`;
     subItems.forEach((el, i) => {
@@ -83,44 +86,69 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCarousel();
   }
 
-  // ── About Me overlay sequence ─────────────────────────────
-  function openAbout() {
-    // 1. Show overlay
-    aboutOverlay.classList.add("visible");
+  // ── Touch swipe — carousel ────────────────────────────────
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let swipeHandled = false;
 
-    // 2. Instantly flash white (PSP boot)
-    aboutOverlay.classList.add("flash");
+  xmbWrap.addEventListener(
+    "touchstart",
+    (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      swipeHandled = false;
+    },
+    { passive: true },
+  );
 
-    // 3. Flash fades out after 300ms
-    setTimeout(() => aboutOverlay.classList.remove("flash"), 300);
+  xmbWrap.addEventListener(
+    "touchend",
+    (e) => {
+      if (swipeHandled) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      // Only handle if horizontal swipe is dominant
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30) {
+        swipeHandled = true;
+        navigate(dx < 0 ? 1 : -1);
+      }
+    },
+    { passive: true },
+  );
 
-    // 4. "About Me" hero title fades in
-    setTimeout(() => aboutOverlay.classList.add("show-hero"), 400);
+  // ── Touch scroll — submenu ────────────────────────────────
+  let subTouchStartY = 0;
 
-    // 5. Hero fades out
-    setTimeout(() => {
-      aboutOverlay.classList.remove("show-hero");
-      aboutOverlay.classList.add("hide-hero");
-    }, 1800);
-
-    // 6. Content + close button fade in
-    setTimeout(() => {
-      aboutOverlay.classList.remove("hide-hero");
-      aboutOverlay.classList.add("show-content");
-    }, 2400);
-  }
-
-  function closeAbout() {
-    aboutOverlay.classList.remove(
-      "visible",
-      "show-content",
-      "show-hero",
-      "hide-hero",
-      "flash",
+  document.querySelectorAll(".sub-menu").forEach((menu) => {
+    menu.addEventListener(
+      "touchstart",
+      (e) => {
+        subTouchStartY = e.touches[0].clientY;
+      },
+      { passive: true },
     );
-  }
 
-  aboutClose.addEventListener("click", closeAbout);
+    menu.addEventListener(
+      "touchend",
+      (e) => {
+        if (!activeSubMenu) return;
+        const dy = e.changedTouches[0].clientY - subTouchStartY;
+        if (Math.abs(dy) > 20) {
+          subMenuFocused = true;
+          subIndex =
+            dy < 0
+              ? Math.min(subItems.length - 1, subIndex + 1)
+              : Math.max(0, subIndex - 1);
+          updateSubMenu();
+        }
+      },
+      { passive: true },
+    );
+  });
+
+  // ── About Me scroll (touch) ───────────────────────────────
+  // #about-content already has -webkit-overflow-scrolling: touch
+  // so native momentum scroll works — nothing extra needed.
 
   // ── Keyboard ──────────────────────────────────────────────
   document.addEventListener("keydown", (e) => {
@@ -163,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ── Scroll wheel ──────────────────────────────────────────
+  // ── Scroll wheel (desktop) ────────────────────────────────
   document.addEventListener(
     "wheel",
     (e) => {
@@ -181,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { passive: false },
   );
 
-  // ── Clicks ────────────────────────────────────────────────
+  // ── Button clicks ─────────────────────────────────────────
   navLeft.addEventListener("click", () => {
     subMenuFocused = false;
     navigate(-1);
@@ -232,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ── Resume ────────────────────────────────────────────────
   function openResume() {
     resumeOverlay.classList.add("visible");
   }
@@ -240,12 +269,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   resumeClose.addEventListener("click", closeResume);
 
+  // ── Sub-item routing ──────────────────────────────────────
   function openSubItem(el) {
     const type = el.dataset.type || "project";
     if (type === "game") openGamePopup(el);
     else openProjectPopup(el);
   }
 
+  // ── Project popup ─────────────────────────────────────────
   function openProjectPopup(el) {
     popupTitle.textContent = el.dataset.title || "";
     popupDesc.textContent = el.dataset.desc || "";
@@ -266,6 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === projectPopup) closeProjectPopup();
   });
 
+  // ── Game popup ────────────────────────────────────────────
   function openGamePopup(el) {
     gamePopupLogo.src = el.dataset.logo || "";
     gamePopupTitle.textContent = el.dataset.title || "";
@@ -288,6 +320,32 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === gamePopup) closeGamePopup();
   });
 
+  // ── About Me sequence ─────────────────────────────────────
+  function openAbout() {
+    aboutOverlay.classList.add("visible", "flash");
+    setTimeout(() => aboutOverlay.classList.remove("flash"), 300);
+    setTimeout(() => aboutOverlay.classList.add("show-hero"), 400);
+    setTimeout(() => {
+      aboutOverlay.classList.remove("show-hero");
+      aboutOverlay.classList.add("hide-hero");
+    }, 1800);
+    setTimeout(() => {
+      aboutOverlay.classList.remove("hide-hero");
+      aboutOverlay.classList.add("show-content");
+    }, 2400);
+  }
+  function closeAbout() {
+    aboutOverlay.classList.remove(
+      "visible",
+      "show-content",
+      "show-hero",
+      "hide-hero",
+      "flash",
+    );
+  }
+  aboutClose.addEventListener("click", closeAbout);
+
+  // ── Shared tag builder ────────────────────────────────────
   function buildTags(techString, container) {
     (techString || "")
       .split(",")
@@ -301,5 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  // ── Init ──────────────────────────────────────────────────
   updateCarousel();
 });
