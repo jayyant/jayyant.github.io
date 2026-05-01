@@ -44,15 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (dist === 1) el.classList.add("adjacent");
     });
 
-    // Measure actual slot width from the DOM instead of hardcoding
     const itemWidth = items[0].offsetWidth;
     const gap = parseFloat(getComputedStyle(track).gap) || 60;
     const slotWidth = itemWidth + gap;
 
-    const screenCentre = window.innerWidth / 2;
-    const wrapLeft = track.parentElement.getBoundingClientRect().left;
+    // Reset transform first so getBoundingClientRect is accurate
+    track.style.transform = "none";
+    const trackLeft = track.getBoundingClientRect().left;
+
     const offset =
-      screenCentre - wrapLeft - current * slotWidth - slotWidth / 2;
+      window.innerWidth / 2 - trackLeft - current * slotWidth - slotWidth / 2;
     track.style.transform = `translateX(${offset}px)`;
     syncSubMenu();
   }
