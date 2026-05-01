@@ -44,7 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (dist === 1) el.classList.add("adjacent");
     });
     const wrapWidth = track.parentElement.offsetWidth;
-    const offset = wrapWidth / 2 - current * ITEM_SLOT - ITEM_SLOT / 2;
+    const screenCentre = window.innerWidth / 2;
+    const wrapLeft = track.parentElement.getBoundingClientRect().left;
+    const offset =
+      screenCentre - wrapLeft - current * ITEM_SLOT - ITEM_SLOT / 2;
     track.style.transform = `translateX(${offset}px)`;
     syncSubMenu();
   }
