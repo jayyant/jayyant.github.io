@@ -624,6 +624,7 @@ body {
 
     /* Single icon visible: wrap width = just enough for one icon */
     #xmb-wrap {
+        padding-left: 30px;
         width: 160px; /* tight around a single icon */
         touch-action: none; /* JS handles swipe */
     }
