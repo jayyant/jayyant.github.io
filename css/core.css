@@ -620,7 +620,7 @@ body {
 @media (max-width: 600px) {
 
     /* Bigger carousel icons on mobile */
-    :root { --item-size: 130px; }
+    :root { --item-size: 120px; }
 
     /* Single icon visible: wrap width = just enough for one icon */
     #xmb-wrap {
