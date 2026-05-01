@@ -140,10 +140,11 @@ body {
 
 /* ── XMB Carousel ── */
 #xmb-wrap {
-    width: min(70vw, 620px);
+    flex: 1;           /* fill space between the two arrows */
+    min-width: 0;      /* flex shrink safety */
     overflow: hidden;
     position: relative;
-    touch-action: pan-y; /* allow vertical scroll passthrough on mobile */
+    touch-action: pan-y;
 }
 #xmb-track {
     display: flex;
@@ -624,6 +625,7 @@ body {
 
     /* Single icon visible: wrap width = just enough for one icon */
     #xmb-wrap {
+        padding-left: 30px;
         width: 160px; /* tight around a single icon */
         touch-action: none; /* JS handles swipe */
     }
