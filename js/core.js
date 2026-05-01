@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const aboutClose = document.getElementById("about-close");
 
   const ROW_H = 98; // matches CSS .sub-item height (desktop)
-  const ITEM_SLOT = 170; // icon width + gap
 
   const items = Array.from(track.querySelectorAll(".xmb-item"));
   let current = 0;
@@ -34,6 +33,31 @@ document.addEventListener("DOMContentLoaded", () => {
   let subItems = [];
   let subIndex = 0;
   let subMenuFocused = false;
+
+  // Measure slot size ONCE before any CSS transforms are applied.
+  // items[0] has no active/adjacent class yet so its width is the
+  // raw un-scaled width — exactly what we want for the grid math.
+  let SLOT_W = 0;
+  let TRACK_ORIGIN = 0; // track's left edge relative to viewport at rest
+
+  function measureLayout() {
+    // Temporarily strip transform so measurement is clean
+    track.style.transition = "none";
+    track.style.transform = "none";
+
+    const trackRect = track.getBoundingClientRect();
+    TRACK_ORIGIN = trackRect.left;
+
+    const itemRect = items[0].getBoundingClientRect();
+    const gap =
+      parseFloat(
+        getComputedStyle(track).columnGap || getComputedStyle(track).gap,
+      ) || 60;
+    SLOT_W = itemRect.width + gap;
+
+    // Restore transition
+    track.style.transition = "";
+  }
 
   // ── Carousel ──────────────────────────────────────────────
   function updateCarousel() {
@@ -44,16 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (dist === 1) el.classList.add("adjacent");
     });
 
-    const itemWidth = items[0].offsetWidth;
-    const gap = parseFloat(getComputedStyle(track).gap) || 60;
-    const slotWidth = itemWidth + gap;
-
-    // Reset transform first so getBoundingClientRect is accurate
-    track.style.transform = "none";
-    const trackLeft = track.getBoundingClientRect().left;
-
+    // Centre of viewport → centre of slot for `current`
     const offset =
-      window.innerWidth / 2 - trackLeft - current * slotWidth - slotWidth / 2;
+      window.innerWidth / 2 - TRACK_ORIGIN - current * SLOT_W - SLOT_W / 2;
     track.style.transform = `translateX(${offset}px)`;
     syncSubMenu();
   }
@@ -374,5 +391,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ── Init ──────────────────────────────────────────────────
+  // Measure before any animation so SLOT_W and TRACK_ORIGIN are clean
+  measureLayout();
   updateCarousel();
+
+  // Re-measure if the window resizes (orientation change on mobile etc.)
+  window.addEventListener("resize", () => {
+    measureLayout();
+    updateCarousel();
+  });
 });
