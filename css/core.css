@@ -625,7 +625,6 @@ body {
 
     /* Single icon visible: wrap width = just enough for one icon */
     #xmb-wrap {
-        padding-left: 30px;
         width: 160px; /* tight around a single icon */
         touch-action: none; /* JS handles swipe */
     }
@@ -641,6 +640,7 @@ body {
 
     /* Submenu: full width, bigger rows */
     .sub-menu {
+        top: calc(100% - 50px);
         width: 90vw;
         height: 300px; /* 3 × 100px */
         left: 50%;
