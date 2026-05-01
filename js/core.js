@@ -254,6 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     if (action === "leetcode")
       window.open("https://leetcode.com/u/ScuffyD/", "_blank");
+    if (action === "behance")
+      window.open(
+        "https://www.behance.net/gallery/161921441/Design-Portfolio",
+        "_blank",
+      );
     if (action === "submenu" && activeSubMenu) {
       subMenuFocused = true;
       openSubItem(subItems[subIndex]);
