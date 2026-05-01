@@ -640,7 +640,7 @@ body {
 
     /* Submenu: full width, bigger rows */
     .sub-menu {
-        top: calc(100% - 50px);
+        top: calc(100% - 80px);
         width: 90vw;
         height: 300px; /* 3 × 100px */
         left: 50%;
