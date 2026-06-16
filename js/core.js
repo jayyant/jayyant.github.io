@@ -166,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       closeProjectPopup();
       closeGamePopup();
       closeAbout();
+      if (typeof closeVideoPopup === "function") closeVideoPopup();
       subMenuFocused = false;
       return;
     }
@@ -238,6 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("click", (e) => {
+    console.log("click", e.target);
     const subItem = e.target.closest(".sub-item");
     if (!subItem || !subItem.closest(".sub-menu.open")) return;
     const idx = subItems.indexOf(subItem);
@@ -336,6 +338,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ── About Me sequence ─────────────────────────────────────
   function openAbout() {
+    document.querySelector('[data-tab="showcase"]').classList.add("active");
+
+    document.getElementById("panel-showcase").classList.add("active");
+
     aboutOverlay.classList.add("visible", "flash");
     setTimeout(() => aboutOverlay.classList.remove("flash"), 300);
     setTimeout(() => aboutOverlay.classList.add("show-hero"), 400);
@@ -356,6 +362,14 @@ document.addEventListener("DOMContentLoaded", () => {
       "hide-hero",
       "flash",
     );
+
+    document
+      .querySelectorAll(".about-panel")
+      .forEach((p) => p.classList.remove("active"));
+
+    document
+      .querySelectorAll(".about-tab")
+      .forEach((t) => t.classList.remove("active"));
   }
   aboutClose.addEventListener("click", closeAbout);
 
@@ -373,6 +387,166 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  // ════════════════════════════════════════════════════
+  // ABOUT ME TABS
+  // ════════════════════════════════════════════════════
+  const aboutTabs = document.querySelectorAll(".about-tab");
+  const aboutPanels = document.querySelectorAll(".about-panel");
+
+  aboutTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      aboutTabs.forEach((t) => t.classList.remove("active"));
+      aboutPanels.forEach((p) => p.classList.remove("active"));
+      tab.classList.add("active");
+      document
+        .getElementById("panel-" + tab.dataset.tab)
+        .classList.add("active");
+      // pause all videos when switching tabs
+      document.querySelectorAll(".vc-card video").forEach((v) => v.pause());
+      if (tab.dataset.tab === "showcase") vcUpdateDeck();
+    });
+  });
+
+  // ════════════════════════════════════════════════════
+  // VIDEO CAROUSEL
+  // ════════════════════════════════════════════════════
+  const vcTrack = document.getElementById("video-carousel-track");
+  const vcViewport = document.getElementById("video-carousel-viewport");
+  const vcPrev = document.getElementById("vc-prev");
+  const vcNext = document.getElementById("vc-next");
+  const vcDotsWrap = document.getElementById("vc-dots");
+
+  const videoPopup = document.getElementById("video-popup");
+  const videoPopupClose = document.getElementById("video-popup-close");
+  const videoPopupPlayer = document.getElementById("video-popup-player");
+  const videoPopupTitle = document.getElementById("video-popup-title");
+  const videoPopupDesc = document.getElementById("video-popup-desc");
+
+  const vcCards = vcTrack
+    ? Array.from(vcTrack.querySelectorAll(".vc-card"))
+    : [];
+  let vcCurrent = 0;
+
+  // Build dots
+  if (vcDotsWrap) {
+    vcCards.forEach((_, i) => {
+      const dot = document.createElement("span");
+      dot.className = "vc-dot" + (i === 0 ? " active" : "");
+      dot.addEventListener("click", () => vcGoTo(i));
+      vcDotsWrap.appendChild(dot);
+    });
+  }
+
+  function vcUpdateDeck() {
+    if (!vcTrack) return;
+
+    const cardW = vcCards[0] ? vcCards[0].offsetWidth : 300;
+    const gap = parseFloat(getComputedStyle(vcTrack).gap) || 20;
+    const slot = cardW + gap;
+    const vpW = vcViewport ? vcViewport.offsetWidth : window.innerWidth;
+
+    // Centre current card in viewport
+    const offset = vpW / 2 - vcCurrent * slot - slot / 2;
+    vcTrack.style.transform = `translateX(${offset}px)`;
+
+    vcCards.forEach((card, i) => {
+      card.classList.remove("vc-active", "vc-adjacent");
+      const dist = Math.abs(i - vcCurrent);
+      if (dist === 0) card.classList.add("vc-active");
+      else if (dist === 1) card.classList.add("vc-adjacent");
+
+      // Play/pause
+      const vid = card.querySelector("video");
+      if (vid) {
+        if (dist === 0) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      }
+    });
+
+    // Dots
+    document.querySelectorAll(".vc-dot").forEach((d, i) => {
+      d.classList.toggle("active", i === vcCurrent);
+    });
+  }
+
+  function vcGoTo(idx) {
+    vcCurrent = Math.max(0, Math.min(vcCards.length - 1, idx));
+    vcUpdateDeck();
+  }
+
+  if (vcPrev) vcPrev.addEventListener("click", () => vcGoTo(vcCurrent - 1));
+  if (vcNext) vcNext.addEventListener("click", () => vcGoTo(vcCurrent + 1));
+
+  // Touch swipe on viewport
+  if (vcViewport) {
+    let vcTouchX = 0;
+    vcViewport.addEventListener(
+      "touchstart",
+      (e) => {
+        vcTouchX = e.touches[0].clientX;
+      },
+      { passive: true },
+    );
+    vcViewport.addEventListener(
+      "touchend",
+      (e) => {
+        const dx = e.changedTouches[0].clientX - vcTouchX;
+        if (Math.abs(dx) > 30) vcGoTo(vcCurrent + (dx < 0 ? 1 : -1));
+      },
+      { passive: true },
+    );
+  }
+
+  // Click active card → popup
+  if (vcTrack) {
+    vcTrack.addEventListener("click", (e) => {
+      const card = e.target.closest(".vc-card");
+      if (!card) return;
+      const idx = vcCards.indexOf(card);
+      if (idx !== vcCurrent) {
+        vcGoTo(idx);
+        return;
+      }
+      // Open popup
+      const src = card.querySelector("source")?.src || "";
+      videoPopupPlayer.src = src;
+      videoPopupPlayer.load();
+      videoPopupPlayer.play().catch(() => {});
+      videoPopupTitle.textContent = card.dataset.title || "";
+      videoPopupDesc.textContent = card.dataset.desc || "";
+      videoPopup.classList.add("visible");
+      // Pause the carousel card while popup is open
+      card.querySelector("video")?.pause();
+    });
+  }
+
+  function closeVideoPopup() {
+    videoPopup.classList.remove("visible");
+    videoPopupPlayer.pause();
+    videoPopupPlayer.src = "";
+    // Resume carousel active card
+    vcCards[vcCurrent]
+      ?.querySelector("video")
+      ?.play()
+      .catch(() => {});
+  }
+  if (videoPopupClose)
+    videoPopupClose.addEventListener("click", closeVideoPopup);
+  if (videoPopup)
+    videoPopup.addEventListener("click", (e) => {
+      if (e.target === videoPopup) closeVideoPopup();
+    });
+
+  // Resize recalc
+  window.addEventListener("resize", () => {
+    if (vcCards.length) vcUpdateDeck();
+  });
+
   // ── Init ──────────────────────────────────────────────────
+  console.log(document.querySelector(".about-panel.active"));
+  console.log(document.querySelector(".about-tab.active"));
   updateCarousel();
 });

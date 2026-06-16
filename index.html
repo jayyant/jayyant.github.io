@@ -257,26 +257,147 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════
-             ABOUT ME OVERLAY
-             PSP boot screen aesthetic — white flash fades to
-             dark gradient, content fades in after.
-        ════════════════════════════════════════════════════ -->
+    <!-- ABOUT ME OVERLAY -->
     <div id="about-overlay">
       <div id="about-flash"></div>
-
       <button id="about-close">✕ Close</button>
+      <div id="about-hero"><span id="about-hero-text">About Me</span></div>
 
-      <div id="about-hero">
-        <span id="about-hero-text">About Me</span>
+      <!-- Tab bar -->
+      <div id="about-tabs">
+        <button class="about-tab" data-tab="showcase">Showcase</button>
+        <button class="about-tab"        data-tab="info">Info</button>
       </div>
 
-      <div id="about-content">
+      <!-- ══ SHOWCASE TAB ══ -->
+      <div class="about-panel" id="panel-showcase">
+
+        <h2 class="about-section-title">Showcase</h2>
+        <div class="about-divider"></div>
+
+        <div id="video-carousel-section">
+          <h3 class="about-section-subtitle">Industrial Projects</h3>
+          <p style="font-family:var(--label-font);font-size:13px;color:rgba(255,255,255,0.4);margin:0 0 12px;letter-spacing:0.05em;">
+            Scroll or use arrows · Click the active video for details
+          </p>
+
+          <div id="video-carousel-viewport">
+            <div id="video-carousel-track">
+
+              <!-- ✏️ CARD 1 — set data-title, data-desc, and src -->
+              <div class="vc-card"
+                   data-title="2048"
+                   data-desc="[Internship Project] An implementation of the popular 2048 game made in JS for an online games platform.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/2048.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 2 -->
+              <div class="vc-card"
+                   data-title="Chess"
+                   data-desc="[Internship Project] A simple chess game implemented in JS with an AI opponent and stylized UI, 2 player also implemented.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/chess.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 3 -->
+              <div class="vc-card"
+                   data-title="Cannon Shooter"
+                   data-desc="[Internship Project] Horizontal tower defense (TD) game implemented in JS with AI opponents, shop system and infinite scalable gameplay.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/cannon_shooter.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 4 -->
+              <div class="vc-card"
+                   data-title="Cross The Road!"
+                   data-desc="[Internship Project] Side scrolling 2D crossy road style game where a frog must cross infinite roads with traffic.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/crossy_road.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 5 -->
+              <div class="vc-card"
+                   data-title="GoZero Marketing Game"
+                   data-desc="[Internship Project] Made specially for the GoZero ice creams brand as a demo for the website, this game has a simple papa's pizzeria-style gameplay that provides information about the brand in a eye-grabbing way.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/gozero.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 6 -->
+              <div class="vc-card"
+                   data-title="Geometry Dash Extra Lite"
+                   data-desc="[Internship Project] A simplified version of the popular Geometry Dash game with one infinite level procedurally generated. Made in JavaScript and uses real songs for the gameplay loop.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/geometry_dash.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 7 -->
+              <div class="vc-card"
+                   data-title="Snowed In!"
+                   data-desc="[Internship Project] Winterized version of Alto's Odyssey built in JS where you ski down infinite slopes built with complex math and get the highest scores. Features a highscore, shop and abilities system.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/snowed_in.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 8 -->
+              <div class="vc-card"
+                   data-title="Suika"
+                   data-desc="[Internship Project] Exact gameplay 1:1 of the popular mobile game 'Suika' where you have to drop and merge fruits into bigger ones.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/suika.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 9 -->
+              <div class="vc-card"
+                   data-title="Tank Wars"
+                   data-desc="[Internship Project] Clone of the classic 'Tank Wars' game with an AI opponent, different bullet types and roguelike rounds where you can upgrade your power, health or bullet speed.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/tankwars.mp4" type="video/mp4">
+                </video>
+              </div>
+
+              <!-- ✏️ CARD 10 -->
+              <div class="vc-card"
+                   data-title="School Monday"
+                   data-desc="[Internship Project & Self Implemented] A completely original game by me on the AiCade website with FNAF-like gameplay features where you can switch between different POVs and an immersive story played out in a horror element. It features 2D realistic graphics made in JS.">
+                <video muted loop playsinline preload="metadata">
+                  <source src="assets/internship_vids/horror.mp4" type="video/mp4">
+                </video>
+              </div>
+
+            </div><!-- end video-carousel-track -->
+          </div><!-- end video-carousel-viewport -->
+
+          <div id="vc-nav">
+            <button class="vc-arrow" id="vc-prev">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="vc-arrow" id="vc-next">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div id="vc-dots"></div>
+          </div>
+
+        </div><!-- end video-carousel-section -->
+      </div><!-- end panel-showcase -->
+
+      <!-- ══ INFO TAB ══ -->
+      <div class="about-panel" id="panel-info">
+
         <h2 class="about-section-title">About Me</h2>
         <div class="about-divider"></div>
 
         <p class="about-bio">
-          My name is Jayyant Jaju, and for the last 3 years, I have been the one and only Spider-Man. No, wait, that’s not right. I am currently pursuing a B.Tech in Computer Science at the Manipal Institute of Technology, specializing in Cyber Security, where I have developed a strong foundation in both software development and security practices. I have a deep passion for game development and have built multiple projects using engines like Godot, along with experience in full stack web development using HTML, CSS, JavaScript, and databases.<br>Alongside this, I have hands on experience in cyber security tools such as Nmap, Wireshark, and Suricata, and I am well versed in working with Linux environments. Through internships and personal projects, I have worked on building scalable applications, designing engaging user experiences, and developing modular game systems.<br>I enjoy combining creativity with technical problem solving to build efficient, secure, and interactive digital solutions.<br>
+          My name is Jayyant Jaju, and for the last 3 years, I have been the one and only Spider-Man. No, wait, that's not right. I am currently pursuing a B.Tech in Computer Science at the Manipal Institute of Technology, specializing in Cyber Security, where I have developed a strong foundation in both software development and security practices. I have a deep passion for game development and have built multiple projects using engines like Godot, along with experience in full stack web development using HTML, CSS, JavaScript, and databases.<br>Alongside this, I have hands on experience in cyber security tools such as Nmap, Wireshark, and Suricata, and I am well versed in working with Linux environments. Through internships and personal projects, I have worked on building scalable applications, designing engaging user experiences, and developing modular game systems.<br>I enjoy combining creativity with technical problem solving to build efficient, secure, and interactive digital solutions.
         </p>
 
         <div class="about-divider"></div>
@@ -299,69 +420,26 @@
 
         <h3 class="about-section-subtitle">Languages</h3>
         <div class="lang-grid">
-          <div class="lang-item">
-            <i class="devicon-python-plain colored"></i>
-            <span>Python</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-cplusplus-plain colored"></i>
-            <span>C++</span>
-          </div>
-          <div class="lang-item">
-            <img src="https://cdn.simpleicons.org/gdscript/ffffff" alt="GDScript" />
-            <span>GDScript</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-c-plain colored"></i>
-            <span>C</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-html5-plain colored"></i>
-            <span>HTML</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-css3-plain colored"></i>
-            <span>CSS</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-javascript-plain colored"></i>
-            <span>JS</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-react-plain colored"></i>
-            <span>React</span>
-          </div>
+          <div class="lang-item"><i class="devicon-python-plain colored"></i><span>Python</span></div>
+          <div class="lang-item"><i class="devicon-cplusplus-plain colored"></i><span>C++</span></div>
+          <div class="lang-item"><img src="https://cdn.simpleicons.org/gdscript/ffffff" alt="GDScript"><span>GDScript</span></div>
+          <div class="lang-item"><i class="devicon-c-plain colored"></i><span>C</span></div>
+          <div class="lang-item"><i class="devicon-html5-plain colored"></i><span>HTML</span></div>
+          <div class="lang-item"><i class="devicon-css3-plain colored"></i><span>CSS</span></div>
+          <div class="lang-item"><i class="devicon-javascript-plain colored"></i><span>JS</span></div>
+          <div class="lang-item"><i class="devicon-react-plain colored"></i><span>React</span></div>
         </div>
 
         <div class="about-divider"></div>
 
         <h3 class="about-section-subtitle">Software</h3>
-        <!-- ✏️  ADD YOUR SOFTWARE HERE — same pattern as Languages above -->
         <div class="lang-grid">
-          <div class="lang-item">
-            <i class="devicon-godot-plain colored"></i>
-            <span>Godot</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-unrealengine-plain colored"></i>
-            <span>Unreal Engine</span>
-          </div>
-          <div class="lang-item">
-            <img src="https://cdn.simpleicons.org/aseprite/ffffff" alt="Aseprite" />
-            <span>Aseprite</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-photoshop-plain colored"></i>
-            <span>Photoshop</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-aftereffects-plain colored"></i>
-            <span>After Effects</span>
-          </div>
-          <div class="lang-item">
-            <i class="devicon-mysql-plain colored"></i>
-            <span>MySQL</span>
-          </div>
+          <div class="lang-item"><i class="devicon-godot-plain colored"></i><span>Godot</span></div>
+          <div class="lang-item"><i class="devicon-unrealengine-plain colored"></i><span>Unreal Engine</span></div>
+          <div class="lang-item"><img src="https://cdn.simpleicons.org/aseprite/ffffff" alt="Aseprite"><span>Aseprite</span></div>
+          <div class="lang-item"><i class="devicon-photoshop-plain colored"></i><span>Photoshop</span></div>
+          <div class="lang-item"><i class="devicon-aftereffects-plain colored"></i><span>After Effects</span></div>
+          <div class="lang-item"><i class="devicon-mysql-plain colored"></i><span>MySQL</span></div>
         </div>
 
         <div class="about-divider"></div>
@@ -369,6 +447,20 @@
         <div id="about-open-to-work">
           <span id="about-open-dot"></span>
           Open to work &amp; commissions
+        </div>
+
+      </div><!-- end panel-info -->
+
+    </div><!-- end about-overlay -->
+
+    <!-- Video detail popup -->
+    <div id="video-popup">
+      <div id="video-popup-inner">
+        <button id="video-popup-close">✕</button>
+        <video id="video-popup-player" controls playsinline></video>
+        <div id="video-popup-body">
+          <h3 id="video-popup-title"></h3>
+          <p id="video-popup-desc"></p>
         </div>
       </div>
     </div>
