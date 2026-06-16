@@ -239,7 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.addEventListener("click", (e) => {
-    console.log("click", e.target);
     const subItem = e.target.closest(".sub-item");
     if (!subItem || !subItem.closest(".sub-menu.open")) return;
     const idx = subItems.indexOf(subItem);
@@ -546,7 +545,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ── Init ──────────────────────────────────────────────────
-  console.log(document.querySelector(".about-panel.active"));
-  console.log(document.querySelector(".about-tab.active"));
   updateCarousel();
 });
