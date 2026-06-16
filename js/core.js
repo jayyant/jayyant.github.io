@@ -406,6 +406,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const personalVideos = document.querySelectorAll(
+    ".personal-project-card video",
+  );
+
+  personalVideos.forEach((video) => {
+    video.play().catch(() => {});
+  });
+
   // ════════════════════════════════════════════════════
   // VIDEO CAROUSEL
   // ════════════════════════════════════════════════════
@@ -435,6 +443,21 @@ document.addEventListener("DOMContentLoaded", () => {
       vcDotsWrap.appendChild(dot);
     });
   }
+
+  document.querySelectorAll(".personal-project-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const src = card.querySelector("source").src;
+
+      videoPopupPlayer.src = src;
+      videoPopupPlayer.load();
+
+      videoPopupTitle.textContent = card.dataset.title;
+
+      videoPopupDesc.textContent = card.dataset.desc;
+
+      videoPopup.classList.add("visible");
+    });
+  });
 
   function vcUpdateDeck() {
     if (!vcTrack) return;
